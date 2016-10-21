@@ -16,5 +16,13 @@ namespace elevator_control_system
         {
             InitializeComponent();
         }
+        private void Open_doors(System.Windows.Forms.PictureBox left_door)
+        {
+
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
