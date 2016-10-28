@@ -507,6 +507,7 @@
             this.call_button_2.Size = new System.Drawing.Size(33, 43);
             this.call_button_2.TabIndex = 37;
             this.call_button_2.UseVisualStyleBackColor = false;
+            this.call_button_2.Click += new System.EventHandler(this.call_button_2_Click);
             // 
             // call_buton_3
             // 
@@ -517,6 +518,7 @@
             this.call_buton_3.Size = new System.Drawing.Size(33, 43);
             this.call_buton_3.TabIndex = 38;
             this.call_buton_3.UseVisualStyleBackColor = false;
+            this.call_buton_3.Click += new System.EventHandler(this.call_buton_3_Click);
             // 
             // led_1_1
             // 
@@ -590,7 +592,7 @@
             this.led_3_1.Image = global::elevator_control_system.Properties.Resources.red_led;
             this.led_3_1.Location = new System.Drawing.Point(141, 12);
             this.led_3_1.Name = "led_3_1";
-            this.led_3_1.Size = new System.Drawing.Size(20, 20);
+            this.led_3_1.Size = new System.Drawing.Size(20, 19);
             this.led_3_1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.led_3_1.TabIndex = 45;
             this.led_3_1.TabStop = false;
@@ -671,6 +673,8 @@
             this.Controls.Add(this.left_door_3_3);
             this.Controls.Add(this.left_door_1_2);
             this.Controls.Add(this.left_door_1_1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Программа управления лифтами";
             this.Load += new System.EventHandler(this.Form1_Load);

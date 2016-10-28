@@ -14,8 +14,7 @@ namespace elevator_control_system
     {
         public Adverse_form()
         {
-            InitializeComponent();
-           
+            InitializeComponent();     
         }
 
         private void Adverse_form_Load(object sender, EventArgs e)

@@ -11,10 +11,15 @@ using System.Windows.Forms;
 namespace elevator_control_system
 {
     public partial class Form1 : Form
-    {
+    {     
+        public Controller Control = new Controller();
+        public Cabin cabin_1 = new Cabin();
+        public Cabin cabin_2 = new Cabin();
+        public Cabin cabin_3 = new Cabin();
+
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
         //анимация открытия дверей, передаётся левая и правая дверь, которые надо открыть
         private void Open_doors(System.Windows.Forms.PictureBox left_door, System.Windows.Forms.PictureBox right_door)
@@ -69,12 +74,13 @@ namespace elevator_control_system
             Adverse_form f = new Adverse_form();
             f.Show();
         }
-        //перреключения лампочи лифта на красный
+
+        //перреключения лампочки лифта на красный
         private void Switch_led_tored(System.Windows.Forms.PictureBox led)
         {
             led.Image = elevator_control_system.Properties.Resources.red_led;
         }
-        //перреключения лампочи лифта на красный
+        //перреключения лампочки лифта на красный
         private void Switch_led_togreen(System.Windows.Forms.PictureBox led)
         {
             led.Image = elevator_control_system.Properties.Resources.green_led;
@@ -84,14 +90,26 @@ namespace elevator_control_system
         {
             MessageBox.Show("Лифт уже вызван", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        private void Form1_Load(object sender, EventArgs e)
+        public void Form1_Load(object sender, EventArgs e)
         {
-            Open_doors(left_door_1_1, right_door_1_1);
-            
+            // Open_doors(left_door_1_1, right_door_1_1);
+            // Open_doors(left_door_2_2, right_door_2_2);
+            // Open_doors(left_door_3_3, right_door_3_3);
+            // Call_adverse_form();           
         }
         private void call_button_1_Click(object sender, EventArgs e)
+        {           
+            Control.Call(1);
+        }
+
+        private void call_button_2_Click(object sender, EventArgs e)
         {
-            Call_adverse_form();
+            Control.Call(2);
+        }
+
+        private void call_buton_3_Click(object sender, EventArgs e)
+        {
+            Control.Call(3);
         }
     }
 }
