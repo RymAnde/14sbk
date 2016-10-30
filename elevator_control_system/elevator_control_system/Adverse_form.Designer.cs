@@ -87,6 +87,7 @@
             this.Controls.Add(this.floor_1);
             this.Controls.Add(this.floor_2);
             this.Controls.Add(this.floor_3);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Adverse_form";
             this.Text = "Выберите этаж";
             this.Load += new System.EventHandler(this.Adverse_form_Load);

@@ -79,6 +79,9 @@
             this.led_3_1 = new System.Windows.Forms.PictureBox();
             this.led_3_2 = new System.Windows.Forms.PictureBox();
             this.led_3_3 = new System.Windows.Forms.PictureBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.timer3 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.left_door_1_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.left_door_1_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.left_door_3_3)).BeginInit();
@@ -619,6 +622,10 @@
             this.led_3_3.TabIndex = 47;
             this.led_3_3.TabStop = false;
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -780,6 +787,9 @@
         private System.Windows.Forms.PictureBox led_3_1;
         private System.Windows.Forms.PictureBox led_3_2;
         private System.Windows.Forms.PictureBox led_3_3;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Timer timer3;
     }
 }
 

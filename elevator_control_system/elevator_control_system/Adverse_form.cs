@@ -29,7 +29,7 @@ namespace elevator_control_system
         private void floor_3_Click(object sender, EventArgs e)
         {
             floor_3.Image = elevator_control_system.Properties.Resources._3_pushed;
-            //здесь код выполнения
+            //Cabin.CabinCall(3);
             timer_light.Start();
             
         }
@@ -37,14 +37,14 @@ namespace elevator_control_system
         private void floor_2_Click(object sender, EventArgs e)
         {
             floor_2.Image = elevator_control_system.Properties.Resources._2_pushed;
-            //здесь код выполнения
+            //Cabin.CabinCall(2);
             timer_light.Start();
         }
 
         private void button3_Click(object sender, EventArgs e)//эт кнопка 1 этажа, переимменуйте мне в падлу)
         {
             floor_1.Image = elevator_control_system.Properties.Resources._1_pushed;
-            //здесь код выполнения
+            //Cabin.CabinCall(1);
             timer_light.Start();
         }
 
