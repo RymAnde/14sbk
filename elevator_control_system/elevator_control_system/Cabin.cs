@@ -13,6 +13,19 @@ namespace elevator_control_system
 {
     public class Cabin
     {
+        int LongDelay = 3;
+        int MediumDelay = 2;
+        int ShortDelay = 1;
+
+        public void Delay(int Time)
+        {
+            if (Time < 1) return;
+            DateTime _desired = DateTime.Now.AddSeconds(Time);
+            while (DateTime.Now < _desired)
+            {
+                System.Windows.Forms.Application.DoEvents();
+            }
+        }
 
         private int CabinColumn = 0;          // Номер лифта
         private int CurrentFloor = 1;         // Этаж, на котором находится кабина в данный момент
@@ -91,8 +104,9 @@ namespace elevator_control_system
             if (GetStatus())
             {
                 CloseDoors();                   // Кабина закрывает двери
+                Delay(ShortDelay);
                 StartMoving();                  // Кабина начинает движение (Лампочка загорелась красным)
-
+                Delay(MediumDelay);
                 if (Direction)
                 {
                     if (CurrentFloor < 3)
@@ -120,11 +134,14 @@ namespace elevator_control_system
         public void Stop()
         {
             StopMoving();                       // Кабина остановилась (Лампочка загорелась зелёным)
+            Delay(ShortDelay);
             if (GetQueue(CurrentFloor))
             {
                 OpenDoors();
+                Delay(LongDelay);
                 CabinReset();
                 CloseDoors();
+
                 Move();
             }
             else

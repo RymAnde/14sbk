@@ -21,6 +21,7 @@ namespace elevator_control_system
             InitializeComponent();
             MainWindow = this;
             RefreshAll();
+
         }
 
         public Controller Control = new Controller();
@@ -142,10 +143,6 @@ namespace elevator_control_system
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-        }
-
-        public void WaitTimer(int Column)
-        {
         }
 
         public void Refresh_1()
