@@ -77,7 +77,8 @@
             // 
             // timer_light
             // 
-            this.timer_light.Interval = 1000;
+            this.timer_light.Enabled = true;
+            this.timer_light.Interval = 2000;
             this.timer_light.Tick += new System.EventHandler(this.timer_light_Tick);
             // 
             // label1

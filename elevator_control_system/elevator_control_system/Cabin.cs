@@ -13,9 +13,9 @@ namespace elevator_control_system
 {
     public class Cabin
     {
-        double LongDelay = 1.5;
-        double MediumDelay = 1;
-        double ShortDelay = 0.5;
+        double LongDelay = 3;
+        double MediumDelay = 2;
+        double ShortDelay = 1;
 
         public void Delay(double Time)
         {
@@ -31,7 +31,7 @@ namespace elevator_control_system
         private int CurrentFloor = 1;         // Этаж, на котором находится кабина в данный момент
 
         private bool IsBusy = false;          // false - Free; true - Busy
-        private bool Doors = false;           // false - Closed; true - Open
+        private bool Doors = true;            // false - Closed; true - Open
         private bool IsMoving = false;        // false - Stopped; true - Moving
         private bool Direction = false;       // false - Up; true - Down
 
@@ -107,6 +107,7 @@ namespace elevator_control_system
             if ((CabinColumn == 1) && (CurrentFloor != 1))
             {
                 CabinCallOnFloor_1 = true;
+                Direction = true;
                 Move();
             }
         }
@@ -120,9 +121,9 @@ namespace elevator_control_system
             if (GetStatus())
             {
                 CloseDoors();                   // Кабина закрывает двери
-                Delay(MediumDelay);
+                Delay(ShortDelay);
                 StartMoving();                  // Кабина начинает движение (Лампочка загорелась красным)
-                Delay(LongDelay);
+                Delay(MediumDelay);
                 if (Direction)
                 {
                     if (CurrentFloor < 3)
@@ -155,7 +156,7 @@ namespace elevator_control_system
             {
                 OpenDoors();
                 CabinReset();
-                Form1.MainWindow.Call_adverse_form(CabinColumn);
+                //Form1.MainWindow.Call_adverse_form(CabinColumn);
                 Delay(LongDelay);
                 CloseDoors();
                 if (!IsBusy)

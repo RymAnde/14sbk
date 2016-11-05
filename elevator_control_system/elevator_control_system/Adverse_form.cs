@@ -26,7 +26,7 @@ namespace elevator_control_system
 
         private void Adverse_form_Load(object sender, EventArgs e)
         {
-            
+           // timer_light.Start();
         }
 
         private void Warning_2()  //предупреждение "Невозможно совершить отправку. Лифт уже на этом этаже" 
@@ -84,7 +84,7 @@ namespace elevator_control_system
                     Form1.MainWindow.Control.cabin_3.CabinCall(1);
                     break;
             }
-            timer_light.Start();
+           timer_light.Start();
         }
 
         private void timer_light_Tick(object sender, EventArgs e)
