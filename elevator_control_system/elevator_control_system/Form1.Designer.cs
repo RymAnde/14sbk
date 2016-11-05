@@ -221,6 +221,7 @@
             // 
             // right_door_1_1
             // 
+            this.right_door_1_1.Enabled = false;
             this.right_door_1_1.Image = global::elevator_control_system.Properties.Resources.right_door;
             this.right_door_1_1.Location = new System.Drawing.Point(150, 342);
             this.right_door_1_1.Name = "right_door_1_1";
@@ -526,7 +527,7 @@
             // led_1_1
             // 
             this.led_1_1.BackColor = System.Drawing.Color.Transparent;
-            this.led_1_1.Image = global::elevator_control_system.Properties.Resources.green_led;
+            this.led_1_1.Image = global::elevator_control_system.Properties.Resources.red_led;
             this.led_1_1.Location = new System.Drawing.Point(141, 315);
             this.led_1_1.Name = "led_1_1";
             this.led_1_1.Size = new System.Drawing.Size(20, 19);
@@ -537,7 +538,7 @@
             // led_1_2
             // 
             this.led_1_2.BackColor = System.Drawing.Color.Transparent;
-            this.led_1_2.Image = global::elevator_control_system.Properties.Resources.green_led;
+            this.led_1_2.Image = global::elevator_control_system.Properties.Resources.red_led;
             this.led_1_2.Location = new System.Drawing.Point(291, 315);
             this.led_1_2.Name = "led_1_2";
             this.led_1_2.Size = new System.Drawing.Size(20, 19);
@@ -559,7 +560,7 @@
             // led_1_3
             // 
             this.led_1_3.BackColor = System.Drawing.Color.Transparent;
-            this.led_1_3.Image = global::elevator_control_system.Properties.Resources.green_led;
+            this.led_1_3.Image = global::elevator_control_system.Properties.Resources.red_led;
             this.led_1_3.Location = new System.Drawing.Point(441, 315);
             this.led_1_3.Name = "led_1_3";
             this.led_1_3.Size = new System.Drawing.Size(20, 19);

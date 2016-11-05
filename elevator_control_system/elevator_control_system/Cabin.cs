@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,7 +13,29 @@ namespace elevator_control_system
 {
     public class Cabin
     {
+
         private int CabinColumn = 0;          // Номер лифта
+        private int CurrentFloor = 1;         // Этаж, на котором находится кабина в данный момент
+
+        private bool IsBusy = false;          // false - Free; true - Busy
+        private bool Doors = true;            // false - Closed; true - Open
+        private bool IsMoving = false;        // false - Stopped; true - Moving
+        private bool Direction = false;       // false - Up; true - Down
+
+        public bool CabinCallOnFloor_1 = false; // Внутренняя очередь вызова кабины
+        public bool CabinCallOnFloor_2 = false;
+        public bool CabinCallOnFloor_3 = false;
+
+        public bool RefreshColumn(int Input)
+        {
+          if (Form1.MainWindow != null)
+           {
+            Form1.MainWindow.Refresh(Input);
+            return true;
+           }
+            return false;
+        }
+
         public void SetColumn(int Input)
         {
             CabinColumn = Input;
@@ -21,11 +44,40 @@ namespace elevator_control_system
         {
             return CabinColumn;
         }
-        private int CurrentFloor = 1;         // Этаж, на котором находится кабина в данный момент
 
-        public int GetFloor()           
+        public int GetFloor()
+                {
+                    return CurrentFloor;
+                }
+
+        public void CloseDoors()
         {
-            return CurrentFloor;
+            Doors = false;
+            RefreshColumn(CabinColumn);
+        }
+        public void OpenDoors()
+        {
+            Doors = true;
+            RefreshColumn(CabinColumn);
+        }
+        public bool GetDoors()
+        {
+            return Doors;
+        }
+
+        public void StartMoving()
+        {
+            IsMoving = true;
+            RefreshColumn(CabinColumn);
+        }
+        public void StopMoving()
+        {
+            IsMoving = false;
+            RefreshColumn(CabinColumn);
+        }
+        public bool GetMovement()
+        {
+            return IsMoving;
         }
 
         public bool GetStatus()
@@ -33,23 +85,18 @@ namespace elevator_control_system
             IsBusy = (CabinCallOnFloor_1 && CabinCallOnFloor_2 && CabinCallOnFloor_3);
             return IsBusy;
         }
-        
-        private bool IsBusy = false;      // false - Free; true - Busy
-        public bool Doors = false;        // false - Closed; true - Open
-        public bool IsMoving = false;     // false - Stopped; true - Moving
-        private bool Direction = false;   // false - Up; true - Down      
-
-        public void Move()                ////// Подъем кабины на один этаж вверх
+       
+        public void Move()                      ////// Движение кабины
         {
             if (GetStatus())
             {
-                Doors = false;            // Кабина закрывает двери
-                IsMoving = true;          // Кабина начинает движение (Лампочка загорелась красным)
-                
+                CloseDoors();                   // Кабина закрывает двери
+                StartMoving();                  // Кабина начинает движение (Лампочка загорелась красным)
+
                 if (Direction)
                 {
                     if (CurrentFloor < 3)
-                        CurrentFloor++;   // Кабина поднимается на один этаж
+                        CurrentFloor++;         // Кабина поднимается на один этаж
                     else
                     {
                         Direction = false;
@@ -59,21 +106,32 @@ namespace elevator_control_system
                 else
                 {
                     if (CurrentFloor > 1)
-                        CurrentFloor--;   // Кабина опускается на один этаж
+                        CurrentFloor--;         // Кабина опускается на один этаж
                     else
                     {
                         Direction = true;
                         Move();
                     }
                 }
-                IsMoving = false;        // Кабина остановилась (Лампочка загорелась зелёным)
-                CabinReset();
+                Stop();
             }
         }
-        
-        public bool CabinCallOnFloor_1 = false; // Внутренняя очередь вызова кабины
-        public bool CabinCallOnFloor_2 = false;
-        public bool CabinCallOnFloor_3 = false;
+
+        public void Stop()
+        {
+            StopMoving();                       // Кабина остановилась (Лампочка загорелась зелёным)
+            if (GetQueue(CurrentFloor))
+            {
+                OpenDoors();
+                CabinReset();
+                CloseDoors();
+                Move();
+            }
+            else
+            {
+                Move();
+            }
+        }
 
         public void CabinCall(int Input)        // Добавить этаж в очередь кабины
         {
@@ -81,12 +139,15 @@ namespace elevator_control_system
             {
                 case 1:
                     CabinCallOnFloor_1 = true;
+                    Move();
                     break;
                 case 2:
                     CabinCallOnFloor_2 = true;
+                    Move();
                     break;
                 case 3:
                     CabinCallOnFloor_3 = true;
+                    Move();
                     break;
             }
             IsBusy = true;
@@ -103,38 +164,35 @@ namespace elevator_control_system
                 case 3:
                     return CabinCallOnFloor_3;
                 default:
-                    return IsBusy;
+                    return GetStatus();
             }           
         }
 
-        public void CabinReset()                // Удалить текущий этаж из очереди вызова кабины
+        public bool CabinReset()                // Удалить текущий этаж из очереди вызова кабины
         {
             switch (CurrentFloor)
             {
                 case 1:
                     CabinCallOnFloor_1 = false;
-                    if (!CabinCallOnFloor_2 && !CabinCallOnFloor_3)
-                        IsBusy = false;
-                    break;
+                    return GetStatus();
                 case 2:
+                    {
                     CabinCallOnFloor_2 = false;
-                    if (!CabinCallOnFloor_1 && !CabinCallOnFloor_3)
-                        IsBusy = false;
-                    else
+                    if (GetStatus())
                     {
                         if (CabinCallOnFloor_1)
                             Direction = true;
                         else
                             Direction = false;
                     }
-                    break;
+                    return GetStatus();
+                    }
                 case 3:
                     CabinCallOnFloor_3 = false;
-                    if (!CabinCallOnFloor_1 && !CabinCallOnFloor_2)
-                        IsBusy = false;
-                    break;
+                    return GetStatus();
+                default:
+                    return GetStatus();
             }
-            Move();
         }
     }
 }

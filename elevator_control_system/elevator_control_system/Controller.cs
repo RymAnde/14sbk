@@ -26,29 +26,28 @@ namespace elevator_control_system
 
         public bool Call(int Input)
         {
-            if (cabin_1.GetQueue(Input) || cabin_2.GetQueue(Input) || cabin_3.GetQueue(Input))
-                // Один из лифтов уже вызван на этот этаж
+            if (cabin_1.GetQueue(Input) || cabin_2.GetQueue(Input) || cabin_3.GetQueue(Input)) // Один из лифтов уже вызван на этот этаж
                 return false;
             else
             {
-                if (cabin_1.GetStatus())
+                if (!cabin_1.GetStatus())
                 {
                     cabin_1.CabinCall(Input);
-                    cabin_1.Move();
+                    // cabin_1.Move();
                 }
                 else
                 {
-                    if (cabin_2.GetStatus())
+                    if (!cabin_2.GetStatus())
                     {
                         cabin_2.CabinCall(Input);
-                        cabin_2.Move();
+                        // cabin_2.Move();
                     }
                     else
                     {
-                        //if (cabin_3.GetStatus())
+                        if (!cabin_3.GetStatus())
                         {
                             cabin_3.CabinCall(Input);
-                            cabin_3.Move();
+                            // cabin_3.Move();
                         }
                     }
                 }

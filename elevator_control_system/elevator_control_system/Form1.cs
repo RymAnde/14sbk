@@ -8,21 +8,34 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using elevator_control_system.Properties;
 
 namespace elevator_control_system
 {
     public partial class Form1 : Form
-    {     
-        public Controller Control = new Controller();
+    {
+        public static Form1 MainWindow { get; set; }
 
         public Form1()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            MainWindow = this;
+            RefreshAll();
         }
+
+        public Controller Control = new Controller();
+
         //анимация открытия дверей, передаётся левая и правая дверь, которые надо открыть
         public void Open_doors(System.Windows.Forms.PictureBox left_door, System.Windows.Forms.PictureBox right_door)
         {
-            open_door_timer.Interval = 50;
+            left_door.Image = elevator_control_system.Properties.Resources.Invisible;
+            right_door.Image = elevator_control_system.Properties.Resources.Invisible;
+            /*left_door.Visible = false;
+            right_door.Visible = false;
+            left_door.Refresh();
+            right_door.Refresh(); */
+
+            /*open_door_timer.Interval = 50;
             int count = 0;
             int max = 40;
             open_door_timer.Tick += new EventHandler((o, ev) =>
@@ -41,12 +54,21 @@ namespace elevator_control_system
                     t.Stop();
                 }
             });
-            open_door_timer.Start();
+            open_door_timer.Start();*/
         }
+
         //анимация закрытия  дверей, передаётся левая и правая дверь, которые надо закрыть
         public void Close_doors(System.Windows.Forms.PictureBox left_door, System.Windows.Forms.PictureBox right_door)
         {
-            open_door_timer.Interval = 50;
+            left_door.Image = elevator_control_system.Properties.Resources.left_door;
+            right_door.Image = elevator_control_system.Properties.Resources.right_door;
+
+            /* left_door.Visible = true;
+             right_door.Visible = true;
+             left_door.Refresh();
+             right_door.Refresh();*/
+
+            /*open_door_timer.Interval = 50;
             int count = 0;
             int max = 40;
             open_door_timer.Tick += new EventHandler((o, ev) =>
@@ -65,12 +87,13 @@ namespace elevator_control_system
                     t.Stop();
                 }
             });
-            open_door_timer.Start();
+            open_door_timer.Start();*/
         }
+
         private void Call_adverse_form()
         {
-            Adverse_form f = new Adverse_form();
-            f.Show();
+            Adverse_form CabinInputPanel = new Adverse_form();
+            CabinInputPanel.Show();
         }
 
         //перреключения лампочки лифта на красный
@@ -78,29 +101,28 @@ namespace elevator_control_system
         {
             led.Image = elevator_control_system.Properties.Resources.red_led;
         }
+
         //перреключения лампочки лифта на красный
         public void Switch_led_togreen(System.Windows.Forms.PictureBox led)
         {
             led.Image = elevator_control_system.Properties.Resources.green_led;
         }
+
         //предупреждение в отдельном окне "Лифт уже вызван"
         public void Warning_1()
         {
-            MessageBox.Show("Лифт уже вызван/двигается на этот этаж", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Лифт уже вызван на этот этаж", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
         public void Form1_Load(object sender, EventArgs e)
         {
             Control.SetColumns();
 
-            timer1.Start();
-            //Open_doors(left_door_1_1, right_door_1_1);
-            //Open_doors(left_door_1_2, right_door_1_2);
-            //Open_doors(left_door_1_3, right_door_1_3);
             //Call_adverse_form();           
         }
+
         private void call_button_1_Click(object sender, EventArgs e)
         {
-            
             if (!Control.Call(1))
                 Warning_1();
         }
@@ -112,19 +134,23 @@ namespace elevator_control_system
         }
 
         private void call_buton_3_Click(object sender, EventArgs e)
-        {   
+        {
             if (!Control.Call(3))
                 Warning_1();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
+
+        }
+
+        public void WaitTimer(int Column)
+        {
         }
 
         public void Refresh_1()
         {
-            if (Control.cabin_1.Doors)
+            if (Control.cabin_1.GetDoors())
                 switch (Control.cabin_1.GetFloor())
                 {
                     case 1:
@@ -153,7 +179,7 @@ namespace elevator_control_system
                 }
             }
 
-            if (Control.cabin_1.IsMoving)
+            if (Control.cabin_1.GetMovement())
                 switch (Control.cabin_1.GetFloor())
                 {
                     case 1:
@@ -185,7 +211,7 @@ namespace elevator_control_system
 
         public void Refresh_2()
         {
-            if (Control.cabin_2.Doors)
+            if (Control.cabin_2.GetDoors())
                 switch (Control.cabin_2.GetFloor())
                 {
                     case 1:
@@ -213,7 +239,7 @@ namespace elevator_control_system
                         break;
                 }
             }
-            if (Control.cabin_2.IsMoving)
+            if (Control.cabin_2.GetMovement())
                 switch (Control.cabin_2.GetFloor())
                 {
                     case 1:
@@ -245,7 +271,7 @@ namespace elevator_control_system
 
         public void Refresh_3()
         {
-            if (Control.cabin_3.Doors)
+            if (Control.cabin_3.GetDoors())
                 switch (Control.cabin_3.GetFloor())
                 {
                     case 1:
@@ -273,7 +299,7 @@ namespace elevator_control_system
                         break;
                 }
             }
-            if (Control.cabin_3.IsMoving)
+            if (Control.cabin_3.GetMovement())
                 switch (Control.cabin_3.GetFloor())
                 {
                     case 1:
@@ -303,7 +329,14 @@ namespace elevator_control_system
             }
         }
 
-        public bool Refresh(int Input)
+        public void RefreshAll()
+        {
+            Refresh_1();
+            Refresh_2();
+            Refresh_3();
+        }
+
+        public void Refresh(int Input)
         {
             switch (Input)
             {
@@ -317,8 +350,7 @@ namespace elevator_control_system
                     Refresh_3();
                     break;
             }
-        return true;
-        }      
+        }
     }
 }
 
