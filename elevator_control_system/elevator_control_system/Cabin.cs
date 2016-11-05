@@ -13,11 +13,11 @@ namespace elevator_control_system
 {
     public class Cabin
     {
-        int LongDelay = 3;
-        int MediumDelay = 2;
-        int ShortDelay = 1;
+        double LongDelay = 1.5;
+        double MediumDelay = 1;
+        double ShortDelay = 0.5;
 
-        public void Delay(int Time)
+        public void Delay(double Time)
         {
             if (Time < 1) return;
             DateTime _desired = DateTime.Now.AddSeconds(Time);
@@ -31,7 +31,7 @@ namespace elevator_control_system
         private int CurrentFloor = 1;         // Этаж, на котором находится кабина в данный момент
 
         private bool IsBusy = false;          // false - Free; true - Busy
-        private bool Doors = true;            // false - Closed; true - Open
+        private bool Doors = false;           // false - Closed; true - Open
         private bool IsMoving = false;        // false - Stopped; true - Moving
         private bool Direction = false;       // false - Up; true - Down
 
@@ -95,18 +95,34 @@ namespace elevator_control_system
 
         public bool GetStatus()
         {
-            IsBusy = (CabinCallOnFloor_1 && CabinCallOnFloor_2 && CabinCallOnFloor_3);
+            if (CabinCallOnFloor_1 || CabinCallOnFloor_2 || CabinCallOnFloor_3)
+                IsBusy = true;
+            else
+                IsBusy = false;
             return IsBusy;
         }
-       
+
+        public void CheckFirstCabin()
+        {
+            if ((CabinColumn == 1) && (CurrentFloor != 1))
+            {
+                CabinCallOnFloor_1 = true;
+                Move();
+            }
+        }
+
         public void Move()                      ////// Движение кабины
         {
+            if (GetQueue(CurrentFloor))
+            {
+                Stop();
+            }
             if (GetStatus())
             {
                 CloseDoors();                   // Кабина закрывает двери
-                Delay(ShortDelay);
-                StartMoving();                  // Кабина начинает движение (Лампочка загорелась красным)
                 Delay(MediumDelay);
+                StartMoving();                  // Кабина начинает движение (Лампочка загорелась красным)
+                Delay(LongDelay);
                 if (Direction)
                 {
                     if (CurrentFloor < 3)
@@ -138,11 +154,14 @@ namespace elevator_control_system
             if (GetQueue(CurrentFloor))
             {
                 OpenDoors();
-                Delay(LongDelay);
                 CabinReset();
+                Form1.MainWindow.Call_adverse_form(CabinColumn);
+                Delay(LongDelay);
                 CloseDoors();
-
-                Move();
+                if (!IsBusy)
+                    CheckFirstCabin();
+                else
+                    Move();
             }
             else
             {

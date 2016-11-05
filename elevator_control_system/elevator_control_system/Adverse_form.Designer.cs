@@ -33,6 +33,8 @@
             this.floor_2 = new System.Windows.Forms.Button();
             this.floor_1 = new System.Windows.Forms.Button();
             this.timer_light = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // floor_3
@@ -78,12 +80,33 @@
             this.timer_light.Interval = 1000;
             this.timer_light.Tick += new System.EventHandler(this.timer_light_Tick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.SystemColors.Info;
+            this.label1.Location = new System.Drawing.Point(-1, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(58, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Кабина№:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.SystemColors.Info;
+            this.label2.Location = new System.Drawing.Point(52, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 13);
+            this.label2.TabIndex = 4;
+            // 
             // Adverse_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::elevator_control_system.Properties.Resources.background1;
             this.ClientSize = new System.Drawing.Size(184, 281);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.floor_1);
             this.Controls.Add(this.floor_2);
             this.Controls.Add(this.floor_3);
@@ -92,6 +115,7 @@
             this.Text = "Выберите этаж";
             this.Load += new System.EventHandler(this.Adverse_form_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -101,5 +125,7 @@
         private System.Windows.Forms.Button floor_2;
         private System.Windows.Forms.Button floor_1;
         private System.Windows.Forms.Timer timer_light;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

@@ -12,39 +12,78 @@ namespace elevator_control_system
 {
     public partial class Adverse_form : Form
     {
-        public Adverse_form()
+        public static Adverse_form Panel { get; set; }
+
+        private int Column = 0;
+
+        public Adverse_form(int Input)
         {
-            InitializeComponent();     
+            InitializeComponent();
+            Panel = this;
+            Panel.label2.Text = Input.ToString();
+            Column = Input;
         }
 
         private void Adverse_form_Load(object sender, EventArgs e)
         {
-
+            
         }
-        //предупреждение "Невозможно совершить отправку. Лифт уже на этом этаже" 
-        private void Warning_2()
+
+        private void Warning_2()  //предупреждение "Невозможно совершить отправку. Лифт уже на этом этаже" 
         {
             MessageBox.Show("Невозможно совершить отправку. Лифт уже на этом этаже", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void floor_3_Click(object sender, EventArgs e)
         {
             floor_3.Image = elevator_control_system.Properties.Resources._3_pushed;
-            //Cabin.CabinCall(3);
+            switch (Column)
+            {
+                case 1:
+                    Form1.MainWindow.Control.cabin_1.CabinCall(3);
+                    break;
+                case 2:
+                    Form1.MainWindow.Control.cabin_2.CabinCall(3);
+                    break;
+                case 3:
+                    Form1.MainWindow.Control.cabin_3.CabinCall(3);
+                    break;
+            }
             timer_light.Start();
-            
         }
 
         private void floor_2_Click(object sender, EventArgs e)
         {
             floor_2.Image = elevator_control_system.Properties.Resources._2_pushed;
-            //Cabin.CabinCall(2);
+            switch (Column)
+            {
+                case 1:
+                    Form1.MainWindow.Control.cabin_1.CabinCall(2);
+                    break;
+                case 2:
+                    Form1.MainWindow.Control.cabin_2.CabinCall(2);
+                    break;
+                case 3:
+                    Form1.MainWindow.Control.cabin_3.CabinCall(2);
+                    break;
+            }
             timer_light.Start();
         }
 
-        private void button3_Click(object sender, EventArgs e)//эт кнопка 1 этажа, переимменуйте мне в падлу)
+        private void button3_Click(object sender, EventArgs e)  //эт кнопка 1 этажа, переимменуйте мне в падлу)
         {
             floor_1.Image = elevator_control_system.Properties.Resources._1_pushed;
-            //Cabin.CabinCall(1);
+            switch (Column)
+            {
+                case 1:
+                    Form1.MainWindow.Control.cabin_1.CabinCall(1);
+                    break;
+                case 2:
+                    Form1.MainWindow.Control.cabin_2.CabinCall(1);
+                    break;
+                case 3:
+                    Form1.MainWindow.Control.cabin_3.CabinCall(1);
+                    break;
+            }
             timer_light.Start();
         }
 

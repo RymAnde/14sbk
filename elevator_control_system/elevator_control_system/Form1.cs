@@ -21,7 +21,6 @@ namespace elevator_control_system
             InitializeComponent();
             MainWindow = this;
             RefreshAll();
-
         }
 
         public Controller Control = new Controller();
@@ -91,9 +90,9 @@ namespace elevator_control_system
             open_door_timer.Start();*/
         }
 
-        private void Call_adverse_form()
+        public void Call_adverse_form(int Input)
         {
-            Adverse_form CabinInputPanel = new Adverse_form();
+            Adverse_form CabinInputPanel = new Adverse_form(Input);
             CabinInputPanel.Show();
         }
 
@@ -117,9 +116,7 @@ namespace elevator_control_system
 
         public void Form1_Load(object sender, EventArgs e)
         {
-            Control.SetColumns();
-
-            //Call_adverse_form();           
+            Control.SetColumns();          
         }
 
         private void call_button_1_Click(object sender, EventArgs e)
