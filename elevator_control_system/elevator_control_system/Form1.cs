@@ -144,6 +144,9 @@ namespace elevator_control_system
 
         public void Refresh_1()
         {
+            button1.Enabled = true;
+            button4.Enabled = true;
+            button7.Enabled = true;
             if (Control.cabin_1.GetDoors())
                 switch (Control.cabin_1.GetFloor())
                 {
@@ -205,6 +208,9 @@ namespace elevator_control_system
 
         public void Refresh_2()
         {
+            button2.Enabled = true;
+            button5.Enabled = true;
+            button8.Enabled = true;
             if (Control.cabin_2.GetDoors())
                 switch (Control.cabin_2.GetFloor())
                 {
@@ -265,6 +271,9 @@ namespace elevator_control_system
 
         public void Refresh_3()
         {
+            button3.Enabled = true;
+            button6.Enabled = true;
+            button9.Enabled = true;
             if (Control.cabin_3.GetDoors())
                 switch (Control.cabin_3.GetFloor())
                 {
@@ -352,6 +361,7 @@ namespace elevator_control_system
             {
                 Call_adverse_form(1);
             }
+            button1.Enabled = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -360,6 +370,7 @@ namespace elevator_control_system
             {
                 Call_adverse_form(2);
             }
+            button2.Enabled = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -368,6 +379,7 @@ namespace elevator_control_system
             {
                 Call_adverse_form(3);
             }
+            button3.Enabled = false;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -384,13 +396,16 @@ namespace elevator_control_system
             {
                 Call_adverse_form(2);
             }
+            button5.Enabled = false;
         }
+
         private void button6_Click(object sender, EventArgs e)
         {
             if ((Control.cabin_3.GetFloor() == 2) && (Control.cabin_3.GetDoors()))
             {
                 Call_adverse_form(3);
             }
+            button6.Enabled = false;
         }
         
         private void button7_Click(object sender, EventArgs e)
@@ -399,6 +414,7 @@ namespace elevator_control_system
             {
                 Call_adverse_form(1);
             }
+            button7.Enabled = false;
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -407,6 +423,7 @@ namespace elevator_control_system
             {
                 Call_adverse_form(2);
             }
+            button8.Enabled = false;
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -415,6 +432,7 @@ namespace elevator_control_system
             {
                 Call_adverse_form(3);
             }
+            button9.Enabled = false;
         }
     }
 }

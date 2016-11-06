@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,18 +14,27 @@ namespace elevator_control_system
 {
     public class Cabin
     {
-        double LongDelay = 3;
-        double MediumDelay = 2;
-        double ShortDelay = 1;
+        int LongDelay = 3;
+        int MediumDelay = 2;
+        int ShortDelay = 1;
 
-        public void Delay(double Time)
+        public void Delay(int Time)
         {
+
+            /*
+            DateTime start = DateTime.Now;
+            while ((DateTime.Now - start).TotalMilliseconds < Time)
+                Application.DoEvents();
+            */
+            ///////////////////////////////////////////////////////
+            
             if (Time < 1) return;
             DateTime _desired = DateTime.Now.AddSeconds(Time);
             while (DateTime.Now < _desired)
             {
                 System.Windows.Forms.Application.DoEvents();
             }
+            
         }
 
         private int CabinColumn = 0;          // Номер лифта
@@ -59,9 +69,9 @@ namespace elevator_control_system
         }
 
         public int GetFloor()
-                {
-                    return CurrentFloor;
-                }
+        {
+            return CurrentFloor;
+        }
 
         public void CloseDoors()
         {
@@ -93,6 +103,28 @@ namespace elevator_control_system
             return IsMoving;
         }
 
+
+        public bool GetDirection()
+        {
+            switch (CurrentFloor)
+            {
+                case 1:
+                    if (CabinCallOnFloor_2 || CabinCallOnFloor_3)
+                        Direction = false;                          // false - вверх
+                    return Direction;
+                case 2:
+                    if (CabinCallOnFloor_3)
+                        Direction = false;
+                    return Direction;
+                case 3:
+                    if (CabinCallOnFloor_1 || CabinCallOnFloor_2)
+                        Direction = true;                          // true - вниз 
+                    return Direction;
+                default:
+                    return Direction;
+            }
+        }
+
         public bool GetStatus()
         {
             if (CabinCallOnFloor_1 || CabinCallOnFloor_2 || CabinCallOnFloor_3)
@@ -107,7 +139,6 @@ namespace elevator_control_system
             if ((CabinColumn == 1) && (CurrentFloor != 1))
             {
                 CabinCallOnFloor_1 = true;
-                Direction = true;
                 Move();
             }
         }
@@ -123,27 +154,21 @@ namespace elevator_control_system
                 CloseDoors();                   // Кабина закрывает двери
                 Delay(ShortDelay);
                 StartMoving();                  // Кабина начинает движение (Лампочка загорелась красным)
-                Delay(MediumDelay);
-                if (Direction)
+                if (!GetDirection())
                 {
                     if (CurrentFloor < 3)
                         CurrentFloor++;         // Кабина поднимается на один этаж
                     else
-                    {
-                        Direction = false;
-                        Move();
-                    }
+                        Direction = true;
                 }
                 else
                 {
                     if (CurrentFloor > 1)
                         CurrentFloor--;         // Кабина опускается на один этаж
                     else
-                    {
-                        Direction = true;
-                        Move();
-                    }
+                        Direction = false;
                 }
+                Delay(MediumDelay);
                 Stop();
             }
         }
@@ -156,14 +181,16 @@ namespace elevator_control_system
             {
                 OpenDoors();
                 CabinReset();
-                //Form1.MainWindow.Call_adverse_form(CabinColumn);
                 Delay(LongDelay);
                 CloseDoors();
                 if (!IsBusy)
+                {
+                    Delay(LongDelay);
                     CheckFirstCabin();
-                else
-                    Move();
-            }
+                }
+            else
+                Move();
+        }
             else
             {
                 Move();
@@ -213,17 +240,8 @@ namespace elevator_control_system
                     CabinCallOnFloor_1 = false;
                     return GetStatus();
                 case 2:
-                    {
                     CabinCallOnFloor_2 = false;
-                    if (GetStatus())
-                    {
-                        if (CabinCallOnFloor_1)
-                            Direction = true;
-                        else
-                            Direction = false;
-                    }
                     return GetStatus();
-                    }
                 case 3:
                     CabinCallOnFloor_3 = false;
                     return GetStatus();
@@ -233,3 +251,5 @@ namespace elevator_control_system
         }
     }
 }
+ 
+ 

@@ -757,6 +757,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.BackgroundImage = global::elevator_control_system.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(584, 461);
             this.Controls.Add(this.led_3_3);
@@ -818,8 +819,10 @@
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
+            this.MaximumSize = new System.Drawing.Size(600, 500);
+            this.MinimumSize = new System.Drawing.Size(600, 500);
             this.Name = "Form1";
-            this.Text = "Программа управления лифтами";
+            this.Text = "Система управления лифтами";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.left_door_1_1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.left_door_1_2)).EndInit();

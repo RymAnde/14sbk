@@ -10,10 +10,6 @@ namespace elevator_control_system
 {
     static class Program
     {
-        static class Data
-        {
-            public static int Value { get; set; }
-        }
 
         /// <summary>
         /// Главная точка входа для приложения.
